@@ -102,6 +102,12 @@ int main()
 	KEYGRAB(Enter)
 	/*XGrabKey(dpy, kc_Enter, Mod1Mask, root, True, GrabModeAsync, GrabModeAsync);*/
 
+	/* Lets play "Add some code so gcc shuts up" */
+	start.x_root = 0;
+	start.y_root = 0;
+	start.button = 0;
+	/* Game over, back to code that actually does stuff! */
+
     /* XGrabKey and XGrabButton are basically ways of saying "when this
      * combination of modifiers and key/button is pressed, send me the events."
      * so we can safely assume that we'll receive Alt+F1 events, Alt+Button1
