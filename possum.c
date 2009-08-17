@@ -6,6 +6,7 @@
  * headers, like Xmd.h, keysym.h, etc.
  */
 #include <X11/Xlib.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 /* Yay for a macro that lets you use KEYCODE("key") to generate the definition... 
@@ -13,7 +14,8 @@
  * ->
  * KeyCode kc_F1 = XKeysymToKeycode(dpy, XStringToKeysym("F1"));
  */
-#define KEYCODE(NAME) KeyCode kc_##NAME = XKeysymToKeycode(dpy, XStringToKeysym( #NAME ));
+#define KEYCODEDECL(NAME) KeyCode kc_##NAME;
+#define KEYCODECODE(NAME) kc_##NAME = XKeysymToKeycode(dpy, XStringToKeysym( #NAME ));
 #define KEYGRAB(NAME) XGrabKey(dpy, kc_##NAME, Mod1Mask, root, True, GrabModeAsync, GrabModeAsync);
 
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
@@ -31,15 +33,29 @@ int main()
 
     XEvent ev;
 
-	/* Get $DISPLAY from the environment */
-	char *display_str = getenv("DISPLAY");
+	KEYCODEDECL(F1)
+	KEYCODEDECL(F2)
+	KEYCODEDECL(F3)
+	KEYCODEDECL(F4)
+	KEYCODEDECL(F5)
+	KEYCODEDECL(F6)
+	KEYCODEDECL(F7)
+	KEYCODEDECL(F8)
+	KEYCODEDECL(F9)
+	KEYCODEDECL(F10)
+	KEYCODEDECL(F11)
+	KEYCODEDECL(F12)
+	KEYCODEDECL(Enter)
 
 	/* Return error code if the display cant be opened
 	 * But even with just:
 	 * dpy = XOpenDisplay(display_str);
 	 * it likes to say: "warning: ISO C90 forbids mixed declarations and code"
 	 */
-    if(!(dpy = XOpenDisplay(display_str))) return 1;
+	if(!(dpy = XOpenDisplay(NULL))) {
+		fprintf(stderr, "Error: cannot open display.");
+		exit(1);
+	}
 
     root = DefaultRootWindow(dpy);
 
@@ -58,19 +74,19 @@ int main()
      * to X.  so we never want to hard-code keycodes, because they can and will
      * differ between systems.
      */
-	KEYCODE(F1)
-	KEYCODE(F2)
-	KEYCODE(F3)
-	KEYCODE(F4)
-	KEYCODE(F5)
-	KEYCODE(F6)
-	KEYCODE(F7)
-	KEYCODE(F8)
-	KEYCODE(F9)
-	KEYCODE(F10)
-	KEYCODE(F11)
-	KEYCODE(F12)
-	KEYCODE(Enter)
+	KEYCODECODE(F1)
+	KEYCODECODE(F2)
+	KEYCODECODE(F3)
+	KEYCODECODE(F4)
+	KEYCODECODE(F5)
+	KEYCODECODE(F6)
+	KEYCODECODE(F7)
+	KEYCODECODE(F8)
+	KEYCODECODE(F9)
+	KEYCODECODE(F10)
+	KEYCODECODE(F11)
+	KEYCODECODE(F12)
+	KEYCODECODE(Enter)
 	KEYGRAB(F1)
 	KEYGRAB(F2)
 	KEYGRAB(F3)
