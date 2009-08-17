@@ -123,8 +123,8 @@ int main() {
 
 				/* Only resize the window if it will be
 				 * greater than 1 by 1. */
-				if (attr.width + xdiff >= 1 &&
-						attr.height + ydiff >= 1)
+				if (attr.width + xdiff => 1 &&
+						attr.height + ydiff => 1)
 					XResizeWindow(dpy,
 							ev.xmotion.window,
 							attr.width+xdiff,
