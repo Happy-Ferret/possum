@@ -7,8 +7,6 @@
  */
 #include <X11/Xlib.h>
 #include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
 
 /* Yay for a macro that lets you use KEYCODE("key") to generate the definition... 
  * KEYCODE("F1")
@@ -36,10 +34,11 @@ int main()
 	/* Get $DISPLAY from the environment */
 	char *display_str = getenv("DISPLAY");
 
-	/* If $DISPLAY wasn't defined, use :0.0 */
-	if ( !strcmp("", display_str) ) display_str = ":0.0";
-
-    /* return failure status if we can't connect */
+	/* Return error code if the display cant be opened
+	 * But even with just:
+	 * dpy = XOpenDisplay(display_str);
+	 * it likes to say: "warning: ISO C90 forbids mixed declarations and code"
+	 */
     if(!(dpy = XOpenDisplay(display_str))) return 1;
 
     root = DefaultRootWindow(dpy);
@@ -126,7 +125,6 @@ int main()
             XRaiseWindow(dpy, ev.xkey.subwindow);
         else if(ev.type == ButtonPress && ev.xbutton.subwindow != None)
         {
-			fprintf(stderr, "BUTTON DOWN!!!!!\n");
 			/* Raise the window */
 			XRaiseWindow(dpy, ev.xbutton.subwindow);
 			
