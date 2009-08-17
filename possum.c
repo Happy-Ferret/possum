@@ -29,7 +29,7 @@ int main()
     /* we use this to save the pointer's state at the beginning of the
      * move/resize.
      */
-    XButtonEvent start;
+    XButtonEvent start = {0};
 
     XEvent ev;
 
@@ -101,12 +101,6 @@ int main()
 	KEYGRAB(F12)
 	KEYGRAB(Enter)
 	/*XGrabKey(dpy, kc_Enter, Mod1Mask, root, True, GrabModeAsync, GrabModeAsync);*/
-
-	/* Lets play "Add some code so gcc shuts up" */
-	start.x_root = 0;
-	start.y_root = 0;
-	start.button = 0;
-	/* Game over, back to code that actually does stuff! */
 
     /* XGrabKey and XGrabButton are basically ways of saying "when this
      * combination of modifiers and key/button is pressed, send me the events."
