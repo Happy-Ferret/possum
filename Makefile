@@ -1,8 +1,8 @@
 PREFIX?=/usr
-CFLAGS?=-Os -pedantic -Wall -g
+CFLAGS?=-Os -ansi -pedantic -Wall -g
 
 all:
-	$(CC) $(CFLAGS) -I$(PREFIX)/include -L$(PREFIX)/lib -lX11 -o possum possum.c
+	$(CC) $(CFLAGS) -I$(PREFIX)/include -L$(PREFIX)/lib -lX11 -o possum possum.c core.c
 
 clean:
 	rm -f possum
