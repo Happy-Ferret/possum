@@ -1,6 +1,8 @@
-/* possum is copyright Nick Markwell, 2009.
+/* possum by Nick Markwell and Martin Brandenburg
  * Based on TinyWM by Nick Welch <mack@incise.org>
- * and is provided AS IS, with NO WARRANTY. */
+ * This is provided AS IS, with NO WARRANTY.
+ * This program is in the public domain.
+ */
 
 #include <X11/Xlib.h>
 #include <stdio.h>
@@ -73,6 +75,8 @@ int main() {
 	KEYGRAB(F12)
 	KEYGRAB(Enter)
 
+	/*XSelectInput(dpy, root, SubstructureRedirectMask);*/
+
 	XGrabButton(dpy, 1, Mod1Mask, root, True, ButtonPressMask,
 			GrabModeAsync, GrabModeAsync, None, None);
 	XGrabButton(dpy, 2, Mod1Mask, root, True, ButtonPressMask,
@@ -116,10 +120,8 @@ int main() {
 
 			if (start.button == 1) {
 				XMoveWindow(dpy, ev.xmotion.window,
-						attr.x, attr.y);
-			} else {
-				/* Because we got an event, it has to be
-				 * from button 3. */
+						attr.x+xdiff, attr.y+ydiff);
+			} else if (start.button == 3) {
 
 				/* Only resize the window if it will be
 				 * greater than 1 by 1. */
@@ -139,7 +141,6 @@ int main() {
 		else if(ev.type == ButtonRelease)
 			/* Again, because we got ButtonRelease, we can
 			 * assume the pointer is in grab mode. */
-			if (ev.xbutton.subwindow != None)
-				XUngrabPointer(dpy, CurrentTime);
+			XUngrabPointer(dpy, CurrentTime);
 	}
 }
