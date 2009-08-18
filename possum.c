@@ -153,23 +153,6 @@ int main() {
 				 * can assume the pointer is in grab mode. */
 				XUngrabPointer(dpy, CurrentTime);
 				break;
-
-			case ConfigureNotify:
-				{
-				Window win;
-				win = XCreateSimpleWindow(dpy, root,
-						ev.xconfigure.x,
-						ev.xconfigure.y,
-						ev.xconfigure.width + 8,
-						ev.xconfigure.height + 8,
-						0,
-						BlackPixel(dpy, screenNum),
-						BlackPixel(dpy, screenNum));
-				XAddToSaveSet(dpy, ev.xconfigure.window);
-				XReparentWindow(dpy, ev.xconfigure.window,
-						win, 4, 4);
-				}
-				break;
 			case CirculateRequest:
 				XCirculateSubwindows(ev.xcirculate.display,
 						ev.xcirculate.window,
@@ -193,7 +176,30 @@ int main() {
 				}
 				break;
 			case MapRequest:
-				XMapWindow(ev.xmap.display, ev.xmap.window);
+				{
+				Window win;
+				XWindowAttributes winAttr;
+				XGetWindowAttributes(ev.xmaprequest.display,
+						ev.xmaprequest.window,
+						&winAttr);
+				win = XCreateSimpleWindow(dpy, root,
+						winAttr.x,
+						winAttr.y,
+						winAttr.width + 8,
+						winAttr.height + 8,
+						0,
+						BlackPixel(dpy, screenNum),
+						BlackPixel(dpy, screenNum));
+				XAddToSaveSet(ev.xmaprequest.display,
+					       ev.xmaprequest.window);
+				XReparentWindow(ev.xmaprequest.display,
+						ev.xmaprequest.window,
+						win, 4, 4);
+				XMapWindow(ev.xmaprequest.display,
+						ev.xmaprequest.window);
+				XMapWindow(ev.xmaprequest.display,
+						win);
+				}
 				break;
 			default:
 				/* What is this you are giving us, Xorg? */
