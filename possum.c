@@ -18,6 +18,7 @@
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
 int main() {
+	int xdiff, ydiff, width, height;
 	Display *dpy;
 	Window root;
 	XWindowAttributes attr;
@@ -87,60 +88,76 @@ int main() {
 	while (1) {
 		XNextEvent(dpy, &ev);
 
-		if(ev.type == KeyPress && ev.xkey.subwindow != None) {
-			/* Raise the window on keypress. */
-			XRaiseWindow(dpy, ev.xkey.subwindow);
-		} else if(ev.type == ButtonPress &&
-				ev.xbutton.subwindow != None) {
-			XRaiseWindow(dpy, ev.xbutton.subwindow);
+		switch(ev.type) {
+			case KeyPress:
+				if(ev.xkey.subwindow != None) 
+					/* Raise the window on keypress. */
+					XRaiseWindow(dpy, ev.xkey.subwindow);
+				break;
+			case ButtonPress:
+				if(ev.xbutton.subwindow == None)
+					break;
+
+				XRaiseWindow(dpy, ev.xbutton.subwindow);
 			
-			/* Look for motion and button releases. */
-			XGrabPointer(dpy, ev.xbutton.subwindow, True,
+				/* Look for motion and button releases. */
+				XGrabPointer(dpy, ev.xbutton.subwindow, True,
 					PointerMotionMask|ButtonReleaseMask,
 					GrabModeAsync, GrabModeAsync, None,
 					None, CurrentTime);
 
-			/* Record start location of window movement. */
-			XGetWindowAttributes(dpy, ev.xbutton.subwindow,
+				/* Record start location of window movement. */
+				XGetWindowAttributes(dpy, ev.xbutton.subwindow,
 					&attr);
-			start = ev.xbutton;
-		} else if(ev.type == MotionNotify) {
-			int xdiff, ydiff;
+				start = ev.xbutton;
+				break;
+			case MotionNotify:
 
-			/* Because we received MotionNotify we are already
-			 * in pointer grab mode. */
+				/* Because we received MotionNotify we are already
+				* in pointer grab mode. */
 
-			/* Loop throught events as to only look at the most
-			 * recent event. */
-			while(XCheckTypedEvent(dpy, MotionNotify, &ev))
-				;
+				/* Loop throught events as to only look at the most
+				* recent event. */
+				while(XCheckTypedEvent(dpy, MotionNotify, &ev))
+					;
 
-			xdiff = ev.xbutton.x_root - start.x_root;
-			ydiff = ev.xbutton.y_root - start.y_root;
+				xdiff = ev.xbutton.x_root - start.x_root;
+				ydiff = ev.xbutton.y_root - start.y_root;
 
-			if (start.button == 1) {
-				XMoveWindow(dpy, ev.xmotion.window,
-						attr.x+xdiff, attr.y+ydiff);
-			} else if (start.button == 3) {
+				if (start.button == 1) {
+					XMoveWindow(dpy, ev.xmotion.window,
+							attr.x+xdiff, attr.y+ydiff);
+				} else if (start.button == 3) {
 
-				/* Only resize the window if it will be
-				 * greater than 1 by 1. */
-				if (attr.width + xdiff >= 1 &&
-						attr.height + ydiff >= 1)
-					XResizeWindow(dpy,
-							ev.xmotion.window,
-							attr.width+xdiff,
-							attr.height+ydiff);
-				else
-					XResizeWindow(dpy,
-							ev.xmotion.window,
-							1, 1);
+					/* Only resize the window if it will be
+					* greater than 1 by 1. */
+					if (attr.width + xdiff >= 1 &&
+							attr.height + ydiff >= 1)
+						XResizeWindow(dpy,
+								ev.xmotion.window,
+								attr.width+xdiff,
+								attr.height+ydiff);
+					else
+						XResizeWindow(dpy,
+								ev.xmotion.window,
+								1, 1);
 
-			}
+				}
+				break;
+			case ButtonRelease:
+				/* Again, because we got ButtonRelease, we can
+				* assume the pointer is in grab mode. */
+				XUngrabPointer(dpy, CurrentTime);
+				break;
+
+			case ConfigureNotify:
+				width = ev.xconfigure.width;
+				height = ev.xconfigure.height;
+				fprintf(stdout, "Window width: %i; Window height: %i... Heck if I know what window it is though!", width, height);
+				break;
+			default:
+				/* What is this you are giving us, Xorg? */
+				break;
 		}
-		else if(ev.type == ButtonRelease)
-			/* Again, because we got ButtonRelease, we can
-			 * assume the pointer is in grab mode. */
-			XUngrabPointer(dpy, CurrentTime);
 	}
 }
