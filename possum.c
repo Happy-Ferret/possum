@@ -18,10 +18,11 @@
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
 int main() {
-	int xdiff, ydiff, width, height;
+	int xdiff, ydiff;
 	Display *dpy;
 	Window root;
 	XWindowAttributes attr;
+	int screenNum;
 
 	XButtonEvent start = {0};
 
@@ -42,7 +43,7 @@ int main() {
 	KEYCODEDECL(Enter)
 
 	if(!(dpy = XOpenDisplay(NULL))) {
-		fprintf(stderr, "Error: cannot open display.");
+		fprintf(stderr, "Error: cannot open display.\n");
 		exit(1);
 	}
 
@@ -76,7 +77,9 @@ int main() {
 	KEYGRAB(F12)
 	KEYGRAB(Enter)
 
-	/*XSelectInput(dpy, root, SubstructureRedirectMask);*/
+	screenNum = DefaultScreen(dpy);
+
+	XSelectInput(dpy, root, SubstructureRedirectMask);
 
 	XGrabButton(dpy, 1, Mod1Mask, root, True, ButtonPressMask,
 			GrabModeAsync, GrabModeAsync, None, None);
@@ -113,12 +116,13 @@ int main() {
 				break;
 			case MotionNotify:
 
-				/* Because we received MotionNotify we are already
-				* in pointer grab mode. */
+				/* Because we received MotionNotify we are
+				 * already in pointer grab mode. */
 
-				/* Loop throught events as to only look at the most
-				* recent event. */
-				while(XCheckTypedEvent(dpy, MotionNotify, &ev))
+				/* Loop throught events as to only look at
+				 * the most recent event. */
+				while(XCheckTypedEvent(dpy, MotionNotify,
+							&ev))
 					;
 
 				xdiff = ev.xbutton.x_root - start.x_root;
@@ -145,15 +149,51 @@ int main() {
 				}
 				break;
 			case ButtonRelease:
-				/* Again, because we got ButtonRelease, we can
-				* assume the pointer is in grab mode. */
+				/* Again, because we got ButtonRelease, we
+				 * can assume the pointer is in grab mode. */
 				XUngrabPointer(dpy, CurrentTime);
 				break;
 
 			case ConfigureNotify:
-				width = ev.xconfigure.width;
-				height = ev.xconfigure.height;
-				fprintf(stdout, "Window width: %i; Window height: %i... Heck if I know what window it is though!", width, height);
+				{
+				Window win;
+				win = XCreateSimpleWindow(dpy, root,
+						ev.xconfigure.x,
+						ev.xconfigure.y,
+						ev.xconfigure.width + 8,
+						ev.xconfigure.height + 8,
+						0,
+						BlackPixel(dpy, screenNum),
+						BlackPixel(dpy, screenNum));
+				XAddToSaveSet(dpy, ev.xconfigure.window);
+				XReparentWindow(dpy, ev.xconfigure.window,
+						win, 4, 4);
+				}
+				break;
+			case CirculateRequest:
+				XCirculateSubwindows(ev.xcirculate.display,
+						ev.xcirculate.window,
+						ev.xcirculate.place);
+				break;
+			case ConfigureRequest:
+				{
+				XWindowChanges values;
+				values.x = ev.xconfigurerequest.x;
+				values.y = ev.xconfigurerequest.y;
+				values.width = ev.xconfigurerequest.width;
+				values.height = ev.xconfigurerequest.height;
+				values.border_width =
+					ev.xconfigurerequest.border_width;
+				values.sibling = 0;
+				values.stack_mode = 0;
+				XConfigureWindow(ev.xconfigurerequest.display,
+						ev.xconfigurerequest.window,
+						ev.xconfigurerequest.value_mask,
+						&values);
+				}
+				break;
+			case MapRequest:
+				XMapWindow(ev.xmap.display, ev.xmap.window);
 				break;
 			default:
 				/* What is this you are giving us, Xorg? */
