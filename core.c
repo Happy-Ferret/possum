@@ -69,6 +69,35 @@ void CoreMotionNotify(Display *dpy, int screenNum, Window root,
 	}
 }
 
+void CoreMapRequest(Display *dpy, int screenNum, Window root,
+	XEvent event)
+{
+	Window win;
+	XWindowAttributes winAttr;
+	XGetWindowAttributes(event.xmaprequest.display,
+		event.xmaprequest.window,
+		&winAttr);
+	win = XCreateSimpleWindow(dpy, root,
+			winAttr.x,
+			winAttr.y,
+			winAttr.width + 8,
+			winAttr.height + 8,
+			0,
+			/*BlackPixel(dpy, screenNum),
+			BlackPixel(dpy, screenNum));*/
+			WhitePixel(dpy, screenNum),
+			WhitePixel(dpy, screenNum));
+	XAddToSaveSet(event.xmaprequest.display,
+		event.xmaprequest.window);
+	XReparentWindow(event.xmaprequest.display,
+		event.xmaprequest.window,
+		win, 4, 4);
+	XMapWindow(event.xmaprequest.display,
+		event.xmaprequest.window);
+	XMapWindow(event.xmaprequest.display,
+		win);
+}
+
 void CoreRegister(Display *dpy, int screenNum, Window root)
 {
 	XSelectInput(dpy, root, SubstructureRedirectMask
