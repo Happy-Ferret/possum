@@ -1,3 +1,4 @@
+CC=gcc
 PREFIX?=/usr
 CFLAGS?=-Os -ansi -pedantic -Wall -g
 

@@ -13,8 +13,7 @@ int main(int argc, char const* argv[])
 	int screenNum;
 
 	XEvent event;
-	KeyCodesCommon *KeyCodes = {0};
-	KeyCode F1;
+	KeyCodesCommon *KeyCodes = malloc(sizeof(KeyCodesCommon));
 	
 	if ((dpy = XOpenDisplay(NULL)) == NULL) {
 		fprintf(stderr, "Error: Could not open default display.\n");
@@ -24,16 +23,8 @@ int main(int argc, char const* argv[])
 	screenNum = DefaultScreen(dpy);
 	root = RootWindow(dpy, screenNum);
 
-	/*
-	 * The following line results in a segfault:
-	 * KeyCodes->F1 = XKeysymToKeycode(dpy, XStringToKeysym("F1"));
-	 * The following does not:
-	 * F1 = XKeysymToKeycode(dpy, XStringToKeysym("F1"));
-	 */
-	/* Uncomment this once we determine what causes the above problem
 	SetCommonKeys(KeyCodes, dpy);
 	GrabCommonKeys(KeyCodes, dpy, root);
-	*/
 
 	XGrabButton(dpy, 1, Mod1Mask, root, True, ButtonPressMask,
 			GrabModeAsync, GrabModeAsync, None, None);

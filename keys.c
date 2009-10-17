@@ -3,7 +3,6 @@
 
 #include <X11/Xlib.h>
 
-#include "core.h"
 #include "keys.h"
 
 void SetCommonKeys(KeyCodesCommon *KeyCodes, Display *dpy)
