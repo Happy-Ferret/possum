@@ -3,9 +3,7 @@
 
 #include <X11/Xlib.h>
 
-void CoreRegister(Display *dpy, int screenNum, Window root);
-void CoreEventProcess(Display *dpy, int screenNum, Window root,
-	XEvent event);
+#include "core.h"
 
 int main(int argc, char const* argv[])
 {

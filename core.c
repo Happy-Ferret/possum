@@ -1,19 +1,19 @@
 #include <X11/Xlib.h>
 
 XButtonEvent move_start = {0};
+XWindowAttributes attr = {0};
 
 void CoreKeyPress(Display *dpy, int screenNum, Window root,
 	XEvent event)
 {
-	if(event.xkey.subwindow != None) 
 	/* Raise the window on keypress. */
-	XRaiseWindow(dpy, event.xkey.subwindow);
+	if(event.xkey.subwindow != None) 
+		XRaiseWindow(dpy, event.xkey.subwindow);
 }
 
 void CoreButtonPress(Display *dpy, int screenNum, Window root,
 	XEvent event)
 {
-	XWindowAttributes attr = {0};
 	if(event.xbutton.subwindow == None)
 		return;
 	
@@ -31,20 +31,10 @@ void CoreButtonPress(Display *dpy, int screenNum, Window root,
 	move_start = event.xbutton;
 }
 
-void CoreRegister(Display *dpy, int screenNum, Window root)
-{
-	XSelectInput(dpy, root, SubstructureRedirectMask
-			| PointerMotionMask);
-
-	XGrabButton(dpy, 1, Mod1Mask, root, True, ButtonPressMask,
-			GrabModeAsync, GrabModeAsync, None, None);
-}
-
 void CoreMotionNotify(Display *dpy, int screenNum, Window root,
 	XEvent event)
 {
 	int xdiff, ydiff;
-	XWindowAttributes attr = {0};
 	/*if (event.xmotion.subwindow != None)
 		XRaiseWindow(dpy, event.xmotion.subwindow);*/
 		
@@ -79,6 +69,15 @@ void CoreMotionNotify(Display *dpy, int screenNum, Window root,
 	}
 }
 
+void CoreRegister(Display *dpy, int screenNum, Window root)
+{
+	XSelectInput(dpy, root, SubstructureRedirectMask
+			| PointerMotionMask);
+
+	XGrabButton(dpy, 1, Mod1Mask, root, True, ButtonPressMask,
+			GrabModeAsync, GrabModeAsync, None, None);
+}
+
 void CoreEventProcess(Display *dpy, int screenNum, Window root,
 	XEvent event)
 {
@@ -90,6 +89,11 @@ void CoreEventProcess(Display *dpy, int screenNum, Window root,
 		break;
 	case ButtonPress:
 		CoreButtonPress(dpy, screenNum, root, event);
+		break;
+	case ButtonRelease:
+		/* Because we got ButtonRelease, we
+		 * can assume the pointer is in grab mode. */
+		XUngrabPointer(dpy, CurrentTime);
 		break;
 	case MotionNotify:
 		CoreMotionNotify(dpy, screenNum, root, event);
