@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <X11/Xlib.h>
-
+#include "possum.h"
 #include "core.h"
 #include "keys.h"
 

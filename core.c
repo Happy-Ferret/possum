@@ -1,4 +1,5 @@
-#include <X11/Xlib.h>
+#include "possum.h"
+#include "core.h"
 
 XButtonEvent move_start = {0};
 XWindowAttributes attr = {0};
