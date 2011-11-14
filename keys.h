@@ -1,7 +1,7 @@
 #ifndef KEYS_H
 #define KEYS_H
 
-#define KEYCODE(NAME) XKeysymToKeycode(dpy, XStringToKeysym( #NAME )); 
+#define KEYCODE(NAME) XKeysymToKeycode(dpy, XStringToKeysym( #NAME ))
 #define KEYGRAB(NAME) GrabKey( XStringToKeysym( #NAME ) , dpy, root)
 
 typedef struct key_codes_common {

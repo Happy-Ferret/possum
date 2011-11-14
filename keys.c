@@ -7,19 +7,19 @@
 
 void SetCommonKeys(KeyCodesCommon *KeyCodes, Display *dpy)
 {
-	KeyCodes->F1 = KEYCODE(F1)
-	KeyCodes->F2 = KEYCODE(F2)
-	KeyCodes->F3 = KEYCODE(F3)
-	KeyCodes->F4 = KEYCODE(F4)
-	KeyCodes->F5 = KEYCODE(F5)
-	KeyCodes->F6 = KEYCODE(F6)
-	KeyCodes->F7 = KEYCODE(F7)
-	KeyCodes->F8 = KEYCODE(F8)
-	KeyCodes->F9 = KEYCODE(F9)
-	KeyCodes->F10 = KEYCODE(F10)
-	KeyCodes->F11 = KEYCODE(F11)
-	KeyCodes->F12 = KEYCODE(F12)
-	KeyCodes->Enter = KEYCODE(Enter)
+	KeyCodes->F1 = KEYCODE(F1);
+	KeyCodes->F2 = KEYCODE(F2);
+	KeyCodes->F3 = KEYCODE(F3);
+	KeyCodes->F4 = KEYCODE(F4);
+	KeyCodes->F5 = KEYCODE(F5);
+	KeyCodes->F6 = KEYCODE(F6);
+	KeyCodes->F7 = KEYCODE(F7);
+	KeyCodes->F8 = KEYCODE(F8);
+	KeyCodes->F9 = KEYCODE(F9);
+	KeyCodes->F10 = KEYCODE(F10);
+	KeyCodes->F11 = KEYCODE(F11);
+	KeyCodes->F12 = KEYCODE(F12);
+	KeyCodes->Enter = KEYCODE(Enter);
 }
 
 void GrabKey(KeyCode key, Display *dpy, Window root)
