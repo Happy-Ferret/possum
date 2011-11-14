@@ -31,6 +31,14 @@ void CoreButtonPress(Display *dpy, int screenNum, Window root,
 	move_start = event.xbutton;
 }
 
+void CoreButtonRelease(Display *dpy, int screenNum, Window root,
+	XEvent event)
+{
+	/* Because we got ButtonRelease, we
+	 * can assume the pointer is in grab mode. */
+	XUngrabPointer(dpy, CurrentTime);
+}
+
 void CoreMotionNotify(Display *dpy, int screenNum, Window root,
 	XEvent event)
 {
@@ -72,7 +80,7 @@ void CoreMotionNotify(Display *dpy, int screenNum, Window root,
 void CoreMapRequest(Display *dpy, int screenNum, Window root,
 	XEvent event)
 {
-	Window win;
+/*	Window win;
 	XWindowAttributes winAttr;
 	XGetWindowAttributes(event.xmaprequest.display,
 		event.xmaprequest.window,
@@ -83,8 +91,8 @@ void CoreMapRequest(Display *dpy, int screenNum, Window root,
 			winAttr.width + 8,
 			winAttr.height + 8,
 			0,
-			/*BlackPixel(dpy, screenNum),
-			BlackPixel(dpy, screenNum));*/
+			//BlackPixel(dpy, screenNum),
+			//BlackPixel(dpy, screenNum));
 			WhitePixel(dpy, screenNum),
 			WhitePixel(dpy, screenNum));
 	XAddToSaveSet(event.xmaprequest.display,
@@ -95,7 +103,36 @@ void CoreMapRequest(Display *dpy, int screenNum, Window root,
 	XMapWindow(event.xmaprequest.display,
 		event.xmaprequest.window);
 	XMapWindow(event.xmaprequest.display,
-		win);
+		win);*/
+
+	XMapWindow(event.xmaprequest.display,
+		event.xmaprequest.window);
+}
+
+void CoreCirculateRequest(Display *dpy, int screenNum, Window root,
+	XEvent event)
+{
+	XCirculateSubwindows(event.xcirculate.display,
+		event.xcirculaterequest.window,
+		event.xcirculaterequest.place);
+}
+
+void CoreConfigureRequest(Display *dpy, int screenNum, Window root,
+	XEvent event)
+{
+	XWindowChanges values;
+	
+	values.x = event.xconfigurerequest.x;
+	values.y = event.xconfigurerequest.y;
+	values.width = event.xconfigurerequest.width;
+	values.height = event.xconfigurerequest.width;
+	values.border_width = event.xconfigurerequest.border_width;
+	values.sibling = 0;
+	values.stack_mode = 0;
+	XConfigureWindow(event.xconfigurerequest.display,
+		event.xconfigurerequest.window,
+		event.xconfigurerequest.value_mask,
+		&values);
 }
 
 void CoreRegister(Display *dpy, int screenNum, Window root)
@@ -110,8 +147,6 @@ void CoreRegister(Display *dpy, int screenNum, Window root)
 void CoreEventProcess(Display *dpy, int screenNum, Window root,
 	XEvent event)
 {
-	XWindowChanges values;
-
 	switch (event.type) {
 	case KeyPress:
 		CoreKeyPress(dpy, screenNum, root, event);
@@ -120,34 +155,19 @@ void CoreEventProcess(Display *dpy, int screenNum, Window root,
 		CoreButtonPress(dpy, screenNum, root, event);
 		break;
 	case ButtonRelease:
-		/* Because we got ButtonRelease, we
-		 * can assume the pointer is in grab mode. */
-		XUngrabPointer(dpy, CurrentTime);
+		CoreButtonRelease(dpy, screenNum, root, event);
 		break;
 	case MotionNotify:
 		CoreMotionNotify(dpy, screenNum, root, event);
 		break;
 	case CirculateRequest:
-		XCirculateSubwindows(event.xcirculate.display,
-				event.xcirculaterequest.window,
-				event.xcirculaterequest.place);
+		CoreCirculateRequest(dpy, screenNum, root, event);
 		break;
 	case ConfigureRequest:
-		values.x = event.xconfigurerequest.x;
-		values.y = event.xconfigurerequest.y;
-		values.width = event.xconfigurerequest.width;
-		values.height = event.xconfigurerequest.width;
-		values.border_width = event.xconfigurerequest.border_width;
-		values.sibling = 0;
-		values.stack_mode = 0;
-		XConfigureWindow(event.xconfigurerequest.display,
-				event.xconfigurerequest.window,
-				event.xconfigurerequest.value_mask,
-				&values);
+		CoreConfigureRequest(dpy, screenNum, root, event);
 		break;
 	case MapRequest:
-		XMapWindow(event.xmaprequest.display,
-				event.xmaprequest.window);
+		CoreMapRequest(dpy, screenNum, root, event);
 		break;
 	}
 }
