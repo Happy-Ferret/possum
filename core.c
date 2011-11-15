@@ -44,6 +44,8 @@ void CoreMotionNotify(Display *dpy, int screenNum, Window root,
 	XEvent event)
 {
 	int xdiff, ydiff;
+	
+	// Focus window under the mouse (if any) when mouse is moved,
 	/*if (event.xmotion.subwindow != None)
 		XRaiseWindow(dpy, event.xmotion.subwindow);*/
 		
