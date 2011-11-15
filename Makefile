@@ -6,7 +6,7 @@ all:
 	$(CC) $(CFLAGS) -I$(PREFIX)/include -L$(PREFIX)/lib -lX11 -o possum possum.c core.c keys.c
 
 test: all
-	$(shell ./test.sh)
+	./test.sh
 
 clean:
 	rm -f possum
