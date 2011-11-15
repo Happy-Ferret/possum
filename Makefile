@@ -1,4 +1,4 @@
-CC=gcc
+CC=clang
 PREFIX?=/usr
 CFLAGS?=-std=c99 -Os -pedantic -Wall -g
 
