@@ -56,27 +56,28 @@ void CoreMotionNotify(Display *dpy, int screenNum, Window root,
 	 * the most recent event. */
 	while(XCheckTypedEvent(dpy, MotionNotify, &event))
 	;
- 
- 	xdiff = event.xbutton.x_root - move_start.x_root;
+
+	xdiff = event.xbutton.x_root - move_start.x_root;
 	ydiff = event.xbutton.y_root - move_start.y_root;
- 
+
 	if (move_start.button == 1) {
 		XMoveWindow(dpy, event.xmotion.window,
-		attr.x+xdiff, attr.y+ydiff);
+			attr.x+xdiff, attr.y+ydiff);
 	} else if (move_start.button == 3) {
 
 		/* Only resize the window if it will be
 		* greater than 1 by 1. */
 		if (attr.width + xdiff >= 1 &&
-			attr.height + ydiff >= 1)
+			attr.height + ydiff >= 1) {
 			XResizeWindow(dpy,
 				event.xmotion.window,
 				attr.width+xdiff,
 				attr.height+ydiff);
-		else
+		} else {
 			XResizeWindow(dpy,
 				event.xmotion.window,
-				1, 1); 
+				1, 1);
+		}
 	}
 }
 
