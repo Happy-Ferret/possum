@@ -3,11 +3,19 @@
 XButtonEvent move_start = {0};
 XWindowAttributes attr = {0};
 
+#define ON_KEY(KEY) if (event.xkey.keycode == KeyCodes->KEY)
+
 void CoreKeyPress()
 {
-	/* Raise the window on keypress. */
-	if(event.xkey.subwindow != None) 
-		XRaiseWindow(dpy, event.xkey.subwindow);
+	ON_KEY(F1) {
+		if(event.xkey.subwindow != None)
+			XRaiseWindow(dpy, event.xkey.subwindow);
+	}
+	
+	ON_KEY(Tab) {
+		XCirculateSubwindowsDown(event.xcirculate.display,
+			event.xcirculaterequest.window);
+	}
 }
 
 void CoreButtonPress()
