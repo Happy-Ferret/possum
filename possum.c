@@ -4,12 +4,7 @@
 
 int main(int argc, char const* argv[])
 {
-	Display *dpy;
-	Window root;
-	int screenNum;
-
-	XEvent event;
-	KeyCodesCommon *KeyCodes = malloc(sizeof(KeyCodesCommon));
+	KeyCodes = malloc(sizeof(KeyCodesCommon));
 	
 	if ((dpy = XOpenDisplay(NULL)) == NULL) {
 		fprintf(stderr, "Error: Could not open default display.\n");
@@ -19,8 +14,8 @@ int main(int argc, char const* argv[])
 	screenNum = DefaultScreen(dpy);
 	root = RootWindow(dpy, screenNum);
 
-	SetCommonKeys(KeyCodes, dpy);
-	GrabCommonKeys(KeyCodes, dpy, root);
+	SetCommonKeys();
+	GrabCommonKeys();
 
 	XGrabButton(dpy, 1, Mod1Mask, root, True, ButtonPressMask,
 			GrabModeAsync, GrabModeAsync, None, None);
@@ -29,12 +24,12 @@ int main(int argc, char const* argv[])
 	XGrabButton(dpy, 3, Mod1Mask, root, True, ButtonPressMask,
 			GrabModeAsync, GrabModeAsync, None, None);
 
-	CoreRegister(dpy, screenNum, root);
+	CoreRegister();
 
 	while (1) {
 		XNextEvent(dpy, &event);
 
-		CoreEventProcess(dpy, screenNum, root, event);
+		CoreEventProcess();
 	}
 
 	XCloseDisplay(dpy);

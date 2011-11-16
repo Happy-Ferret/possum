@@ -6,4 +6,17 @@
 
 #include <X11/Xlib.h>
 
+#include "core.h"
+#include "keys.h"
+
+// These next 5 vars are to avoid hilarious amounts of redundancy
+
+Display *dpy;
+Window root;
+int screenNum;
+
+XEvent event;
+
+KeyCodesCommon *KeyCodes;
+
 #endif

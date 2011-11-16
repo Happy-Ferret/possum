@@ -2,7 +2,6 @@
 #define KEYS_H
 
 #define KEYCODE(NAME) XKeysymToKeycode(dpy, XStringToKeysym( #NAME ))
-#define KEYGRAB(NAME) GrabKey( XStringToKeysym( #NAME ) , dpy, root)
 
 typedef struct key_codes_common {
 	KeyCode F1;
@@ -21,8 +20,8 @@ typedef struct key_codes_common {
 	KeyCode Tab;
 } KeyCodesCommon;
 
-void SetCommonKeys(KeyCodesCommon *KeyCodes, Display *dpy);
-void GrabKey(KeyCode key, Display *dpy, Window root);
-void GrabCommonKeys(KeyCodesCommon *KeyCodes, Display *dpy, Window root);
+void SetCommonKeys();
+void GrabKey(KeyCode key);
+void GrabCommonKeys();
 
 #endif

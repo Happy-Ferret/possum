@@ -1,7 +1,6 @@
 #include "possum.h"
-#include "keys.h"
 
-void SetCommonKeys(KeyCodesCommon *KeyCodes, Display *dpy)
+void SetCommonKeys()
 {
 	KeyCodes->F1 = KEYCODE(F1);
 	KeyCodes->F2 = KEYCODE(F2);
@@ -19,26 +18,26 @@ void SetCommonKeys(KeyCodesCommon *KeyCodes, Display *dpy)
 	KeyCodes->Tab = KEYCODE(Tab);
 }
 
-void GrabKey(KeyCode key, Display *dpy, Window root)
+void GrabKey(KeyCode key)
 {
 	XGrabKey(dpy, key, Mod1Mask, root, True,
 		GrabModeAsync, GrabModeAsync);
 }
 
-void GrabCommonKeys(KeyCodesCommon *KeyCodes, Display *dpy, Window root)
+void GrabCommonKeys()
 {
-	KEYGRAB(KeyCodes->F1);
-	KEYGRAB(KeyCodes->F2);
-	KEYGRAB(KeyCodes->F3);
-	KEYGRAB(KeyCodes->F4);
-	KEYGRAB(KeyCodes->F5);
-	KEYGRAB(KeyCodes->F6);
-	KEYGRAB(KeyCodes->F7);
-	KEYGRAB(KeyCodes->F8);
-	KEYGRAB(KeyCodes->F9);
-	KEYGRAB(KeyCodes->F10);
-	KEYGRAB(KeyCodes->F11);
-	KEYGRAB(KeyCodes->F12);
-	KEYGRAB(KeyCodes->Enter);
-	KEYGRAB(KeyCodes->Tab);
+	GrabKey(KeyCodes->F1);
+	GrabKey(KeyCodes->F2);
+	GrabKey(KeyCodes->F3);
+	GrabKey(KeyCodes->F4);
+	GrabKey(KeyCodes->F5);
+	GrabKey(KeyCodes->F6);
+	GrabKey(KeyCodes->F7);
+	GrabKey(KeyCodes->F8);
+	GrabKey(KeyCodes->F9);
+	GrabKey(KeyCodes->F10);
+	GrabKey(KeyCodes->F11);
+	GrabKey(KeyCodes->F12);
+	GrabKey(KeyCodes->Enter);
+	GrabKey(KeyCodes->Tab);
 }

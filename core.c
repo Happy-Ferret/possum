@@ -1,19 +1,16 @@
 #include "possum.h"
-#include "core.h"
 
 XButtonEvent move_start = {0};
 XWindowAttributes attr = {0};
 
-void CoreKeyPress(Display *dpy, int screenNum, Window root,
-	XEvent event)
+void CoreKeyPress()
 {
 	/* Raise the window on keypress. */
 	if(event.xkey.subwindow != None) 
 		XRaiseWindow(dpy, event.xkey.subwindow);
 }
 
-void CoreButtonPress(Display *dpy, int screenNum, Window root,
-	XEvent event)
+void CoreButtonPress()
 {
 	if(event.xbutton.subwindow == None)
 		return;
@@ -32,16 +29,14 @@ void CoreButtonPress(Display *dpy, int screenNum, Window root,
 	move_start = event.xbutton;
 }
 
-void CoreButtonRelease(Display *dpy, int screenNum, Window root,
-	XEvent event)
+void CoreButtonRelease()
 {
 	/* Because we got ButtonRelease, we
 	 * can assume the pointer is in grab mode. */
 	XUngrabPointer(dpy, CurrentTime);
 }
 
-void CoreMotionNotify(Display *dpy, int screenNum, Window root,
-	XEvent event)
+void CoreMotionNotify()
 {
 	int xdiff, ydiff;
 	
@@ -81,8 +76,7 @@ void CoreMotionNotify(Display *dpy, int screenNum, Window root,
 	}
 }
 
-void CoreMapRequest(Display *dpy, int screenNum, Window root,
-	XEvent event)
+void CoreMapRequest()
 {
 /*	Window win;
 	XWindowAttributes winAttr;
@@ -115,16 +109,14 @@ void CoreMapRequest(Display *dpy, int screenNum, Window root,
 		event.xmaprequest.window);
 }
 
-void CoreCirculateRequest(Display *dpy, int screenNum, Window root,
-	XEvent event)
+void CoreCirculateRequest()
 {
 	XCirculateSubwindows(event.xcirculate.display,
 		event.xcirculaterequest.window,
 		event.xcirculaterequest.place);
 }
 
-void CoreConfigureRequest(Display *dpy, int screenNum, Window root,
-	XEvent event)
+void CoreConfigureRequest()
 {
 	XWindowChanges values;
 	
@@ -141,7 +133,7 @@ void CoreConfigureRequest(Display *dpy, int screenNum, Window root,
 		&values);
 }
 
-void CoreRegister(Display *dpy, int screenNum, Window root)
+void CoreRegister()
 {
 	XSelectInput(dpy, root, SubstructureRedirectMask
 			| PointerMotionMask);
@@ -150,30 +142,29 @@ void CoreRegister(Display *dpy, int screenNum, Window root)
 			GrabModeAsync, GrabModeAsync, None, None);
 }
 
-void CoreEventProcess(Display *dpy, int screenNum, Window root,
-	XEvent event)
+void CoreEventProcess()
 {
 	switch (event.type) {
 	case KeyPress:
-		CoreKeyPress(dpy, screenNum, root, event);
+		CoreKeyPress();
 		break;
 	case ButtonPress:
-		CoreButtonPress(dpy, screenNum, root, event);
+		CoreButtonPress();
 		break;
 	case ButtonRelease:
-		CoreButtonRelease(dpy, screenNum, root, event);
+		CoreButtonRelease();
 		break;
 	case MotionNotify:
-		CoreMotionNotify(dpy, screenNum, root, event);
+		CoreMotionNotify();
 		break;
 	case CirculateRequest:
-		CoreCirculateRequest(dpy, screenNum, root, event);
+		CoreCirculateRequest();
 		break;
 	case ConfigureRequest:
-		CoreConfigureRequest(dpy, screenNum, root, event);
+		CoreConfigureRequest();
 		break;
 	case MapRequest:
-		CoreMapRequest(dpy, screenNum, root, event);
+		CoreMapRequest();
 		break;
 	}
 }
