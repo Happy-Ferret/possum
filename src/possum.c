@@ -46,12 +46,20 @@ void PossumExit() {
 	exit(0);
 }
 
-void PossumRecompile() {
+int PossumRecompile() {
 	int ret;
-
+	
 	printf("\n*** Recompiling possum\n");
-
+	
 	ret = system("make clean all");
+	
+	if (ret != 0) {
+		printf("*** Recompile failed!\n");
+		return False;
+	} else {
+		printf("*** Recompile succeeded\n");
+		return True;
+	}
 }
 
 void PossumRestart() {

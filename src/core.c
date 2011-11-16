@@ -27,8 +27,11 @@ void CoreKeyPress()
 
 #ifdef DEVELOPMENT
 	ON_ALTCTRL(Delete) {
-		PossumRecompile();
-		PossumRestart();
+		if (PossumRecompile()) {
+			PossumRestart();
+		} else {
+			printf("*** Not restarting");
+		}
 	}
 #endif
 
