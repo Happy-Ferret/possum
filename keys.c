@@ -16,6 +16,7 @@ void SetCommonKeys(KeyCodesCommon *KeyCodes, Display *dpy)
 	KeyCodes->F11 = KEYCODE(F11);
 	KeyCodes->F12 = KEYCODE(F12);
 	KeyCodes->Enter = KEYCODE(Enter);
+	KeyCodes->Tab = KEYCODE(Tab);
 }
 
 void GrabKey(KeyCode key, Display *dpy, Window root)
@@ -39,4 +40,5 @@ void GrabCommonKeys(KeyCodesCommon *KeyCodes, Display *dpy, Window root)
 	KEYGRAB(KeyCodes->F11);
 	KEYGRAB(KeyCodes->F12);
 	KEYGRAB(KeyCodes->Enter);
+	KEYGRAB(KeyCodes->Tab);
 }

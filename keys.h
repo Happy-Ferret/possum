@@ -18,6 +18,7 @@ typedef struct key_codes_common {
 	KeyCode F11;
 	KeyCode F12;
 	KeyCode Enter;
+	KeyCode Tab;
 } KeyCodesCommon;
 
 void SetCommonKeys(KeyCodesCommon *KeyCodes, Display *dpy);
