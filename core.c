@@ -109,6 +109,8 @@ void CoreMapRequest(Display *dpy, int screenNum, Window root,
 	XMapWindow(event.xmaprequest.display,
 		win);*/
 
+    XSetWindowBorderWidth(dpy, event.xmaprequest.window, 1);
+
 	XMapWindow(event.xmaprequest.display,
 		event.xmaprequest.window);
 }
