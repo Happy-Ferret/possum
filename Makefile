@@ -68,25 +68,3 @@ debug: all
 
 .PHONY: all clean flags test debug headers
 
-#CC=clang
-#PREFIX?=/usr
-#CFLAGS?=-std=c99 -Os -pedantic -Wall -g
-#INCLUDES?=-I$(PREFIX)/include
-#LIBS?=-L$(PREFIX)/lib -lX11
-#SOURCES=$(
-
-#compile:
-#	$(CC) $(CFLAGS) $(INCLUDES) $(LIBS) -o possum possum.c core.c keys.c
-
-#compile_debug:
-#	$(CC) $(CFLAGS) $(INCLUDES) $(LIBS) -o possum possum.c core.c keys.c
-
-#test: all
-#	./test.sh
-
-#debug: all
-#	./test.sh -v
-
-#clean:
-#	rm -f possum
-
