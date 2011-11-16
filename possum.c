@@ -51,7 +51,7 @@ void PossumRestart() {
 
 	pid = fork();
 	if (pid == 0)
-		ret = execl ("./possum", "./possum", (char *)0);
+		ret = execl ("./possum", "./possum", NULL);
 	else
 		PossumExit();
 }
