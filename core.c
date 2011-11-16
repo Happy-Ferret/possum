@@ -9,16 +9,14 @@ XWindowAttributes attr = {0};
 #define _MOD1_SHIFT (event.xkey.keycode & (Mod1Mask|ShiftMask))
 #define _MOD1_CTRL  (event.xkey.keycode & (Mod1Mask|ControlMask))
 #define _CTRL_SHIFT (event.xkey.keycode & (ControlMask|ShiftMask))
-#define _NO_MODS    !(_SHIFT || _CONTROL || _MOD1)
 
-//#define ON_KEY(KEY)       if (event.xkey.keycode == KeyCodes->KEY)
+#define ON_KEY(KEY)       if (event.xkey.keycode == KeyCodes->KEY)
 #define ON_ALT(KEY)       if ((event.xkey.keycode == KeyCodes->KEY) & _SHIFT)
 #define ON_SHIFT(KEY)     if ((event.xkey.keycode == KeyCodes->KEY) && _MOD1)
 #define ON_ALTSHIFT(KEY)  if ((event.xkey.keycode == KeyCodes->KEY) && _MOD1_SHIFT)
-#define ON_CONTROL(KEY)   if ((event.xkey.keycode == KeyCodes->KEY) && _CONTROL)
+#define ON_CTRL(KEY)      if ((event.xkey.keycode == KeyCodes->KEY) && _CONTROL)
 #define ON_CTRLSHIFT(KEY) if ((event.xkey.keycode == KeyCodes->KEY) && _CTRL_SHIFT)
 #define ON_ALTCTRL(KEY)   if ((event.xkey.keycode == KeyCodes->KEY) && _MOD1_CTRL)
-#define ON_KEY(KEY)       if ((event.xkey.keycode == KeyCodes->KEY) && _NO_MODS)
 
 void CoreKeyPress()
 {
