@@ -142,29 +142,17 @@ void CoreRegister()
 			GrabModeAsync, GrabModeAsync, None, None);
 }
 
+#define HANDLE(X) case X: Core##X(); break
+
 void CoreEventProcess()
 {
 	switch (event.type) {
-	case KeyPress:
-		CoreKeyPress();
-		break;
-	case ButtonPress:
-		CoreButtonPress();
-		break;
-	case ButtonRelease:
-		CoreButtonRelease();
-		break;
-	case MotionNotify:
-		CoreMotionNotify();
-		break;
-	case CirculateRequest:
-		CoreCirculateRequest();
-		break;
-	case ConfigureRequest:
-		CoreConfigureRequest();
-		break;
-	case MapRequest:
-		CoreMapRequest();
-		break;
+		HANDLE(KeyPress);
+		HANDLE(ButtonPress);
+		HANDLE(ButtonRelease);
+		HANDLE(MotionNotify);
+		HANDLE(CirculateRequest);
+		HANDLE(ConfigureRequest);
+		HANDLE(MapRequest);
 	}
 }
