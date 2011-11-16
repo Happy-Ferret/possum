@@ -46,6 +46,14 @@ void PossumExit() {
 	exit(0);
 }
 
+void PossumRecompile() {
+	int ret;
+
+	printf("\n*** Recompiling possum\n");
+
+	ret = system("make clean all");
+}
+
 void PossumRestart() {
 	pid_t pid;
 	int ret;

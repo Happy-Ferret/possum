@@ -27,6 +27,7 @@ void CoreKeyPress()
 
 #ifdef DEVELOPMENT
 	ON_ALTCTRL(Delete) {
+		PossumRecompile();
 		PossumRestart();
 	}
 #endif

@@ -11,6 +11,7 @@
 #include <keys.h>
 
 void PossumExit();
+void PossumRecompile();
 void PossumRestart();
 
 // These next 5 vars are to avoid hilarious amounts of redundancy
