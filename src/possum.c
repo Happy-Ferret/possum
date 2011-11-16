@@ -1,10 +1,13 @@
-#include "possum.h"
-#include "core.h"
-#include "keys.h"
+#include <possum.h>
+#include <_git_info.h>
 
 int main(int argc, char const* argv[])
 {
 	KeyCodes = malloc(sizeof(KeyCodesCommon));
+
+#ifdef DEVELOPMENT
+    printf("Possum development build. [git %s %s]\n", GIT_COMMIT, GIT_BRANCH);
+#endif
 	
 	if ((dpy = XOpenDisplay(NULL)) == NULL) {
 		fprintf(stderr, "Error: Could not open default display.\n");

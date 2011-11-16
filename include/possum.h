@@ -7,8 +7,8 @@
 
 #include <X11/Xlib.h>
 
-#include "core.h"
-#include "keys.h"
+#include <core.h>
+#include <keys.h>
 
 void PossumExit();
 void PossumRestart();

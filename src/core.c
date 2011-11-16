@@ -1,4 +1,4 @@
-#include "possum.h"
+#include <possum.h>
 
 XButtonEvent move_start = {0};
 XWindowAttributes attr = {0};
@@ -25,9 +25,11 @@ void CoreKeyPress()
 			XRaiseWindow(event.xkey.display, event.xkey.subwindow);
 	}
 
+#ifdef DEVELOPMENT
 	ON_ALTCTRL(Delete) {
 		PossumRestart();
 	}
+#endif
 
 	/*ON_ALT(F4) {
 		XKillClient(event.xkey.display, event.xkey.window);

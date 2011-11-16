@@ -1,1 +1,4 @@
 possum
+*.o
+*.d
+include/_*.h
