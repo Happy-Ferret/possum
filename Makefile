@@ -8,6 +8,9 @@ all:
 test: all
 	./test.sh
 
+debug: all
+	./test.sh -v
+
 clean:
 	rm -f possum
 
