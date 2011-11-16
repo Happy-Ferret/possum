@@ -36,5 +36,8 @@ int main(int argc, char const* argv[])
 
 		CoreEventProcess(dpy, screenNum, root, event);
 	}
+
+	XCloseDisplay(dpy);
+
 	return 0;
 }
