@@ -3,11 +3,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include <X11/Xlib.h>
 
 #include "core.h"
 #include "keys.h"
+
+void PossumExit();
+void PossumRestart();
 
 // These next 5 vars are to avoid hilarious amounts of redundancy
 

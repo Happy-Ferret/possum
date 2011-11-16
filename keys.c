@@ -14,13 +14,20 @@ void SetCommonKeys()
 	KeyCodes->F10 = KEYCODE(F10);
 	KeyCodes->F11 = KEYCODE(F11);
 	KeyCodes->F12 = KEYCODE(F12);
-	KeyCodes->Enter = KEYCODE(Enter);
 	KeyCodes->Tab = KEYCODE(Tab);
+	KeyCodes->Enter = KEYCODE(Enter);
+	KeyCodes->Delete = KEYCODE(Delete);
 }
 
 void GrabKey(KeyCode key)
 {
 	XGrabKey(dpy, key, Mod1Mask, root, True,
+		GrabModeAsync, GrabModeAsync);
+	XGrabKey(dpy, key, Mod1Mask|ShiftMask, root, True,
+		GrabModeAsync, GrabModeAsync);
+	XGrabKey(dpy, key, Mod1Mask|ControlMask, root, True,
+		GrabModeAsync, GrabModeAsync);
+	XGrabKey(dpy, key, Mod1Mask|ControlMask|ShiftMask, root, True,
 		GrabModeAsync, GrabModeAsync);
 }
 
@@ -38,6 +45,7 @@ void GrabCommonKeys()
 	GrabKey(KeyCodes->F10);
 	GrabKey(KeyCodes->F11);
 	GrabKey(KeyCodes->F12);
-	GrabKey(KeyCodes->Enter);
 	GrabKey(KeyCodes->Tab);
+	GrabKey(KeyCodes->Enter);
+	GrabKey(KeyCodes->Delete);
 }

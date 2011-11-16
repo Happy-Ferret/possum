@@ -16,8 +16,9 @@ typedef struct key_codes_common {
 	KeyCode F10;
 	KeyCode F11;
 	KeyCode F12;
-	KeyCode Enter;
 	KeyCode Tab;
+	KeyCode Enter;
+	KeyCode Delete;
 } KeyCodesCommon;
 
 void SetCommonKeys();

@@ -3,18 +3,39 @@
 XButtonEvent move_start = {0};
 XWindowAttributes attr = {0};
 
-#define ON_KEY(KEY) if (event.xkey.keycode == KeyCodes->KEY)
+#define _SHIFT      (event.xkey.keycode & ShiftMask)
+#define _CONTROL    (event.xkey.keycode & ControlMask)
+#define _MOD1       (event.xkey.keycode & Mod1Mask)
+#define _MOD1_SHIFT (event.xkey.keycode & (Mod1Mask|ShiftMask))
+#define _MOD1_CTRL  (event.xkey.keycode & (Mod1Mask|ControlMask))
+#define _CTRL_SHIFT (event.xkey.keycode & (ControlMask|ShiftMask))
+
+#define ON_KEY(KEY)       if (event.xkey.keycode == KeyCodes->KEY)
+#define ON_ALT(KEY)       if ((event.xkey.keycode == KeyCodes->KEY) & _SHIFT)
+#define ON_SHIFT(KEY)     if ((event.xkey.keycode == KeyCodes->KEY) && _MOD1)
+#define ON_ALTSHIFT(KEY)  if ((event.xkey.keycode == KeyCodes->KEY) && _MOD1_SHIFT)
+#define ON_CONTROL(KEY)   if ((event.xkey.keycode == KeyCodes->KEY) && _CONTROL)
+#define ON_CTRLSHIFT(KEY) if ((event.xkey.keycode == KeyCodes->KEY) && _CTRL_SHIFT)
+#define ON_ALTCTRL(KEY)   if ((event.xkey.keycode == KeyCodes->KEY) && _MOD1_CTRL)
 
 void CoreKeyPress()
 {
-	ON_KEY(F1) {
+	ON_ALT(F1) {
 		if(event.xkey.subwindow != None)
-			XRaiseWindow(dpy, event.xkey.subwindow);
+			XRaiseWindow(event.xkey.display, event.xkey.subwindow);
 	}
+
+	ON_ALTCTRL(Delete) {
+		PossumRestart();
+	}
+
+	/*ON_ALT(F4) {
+		XKillClient(event.xkey.display, event.xkey.window);
+	}*/
 	
-	ON_KEY(Tab) {
-		XCirculateSubwindowsDown(event.xcirculate.display,
-			event.xcirculaterequest.window);
+	ON_ALT(Tab) {
+		XCirculateSubwindowsDown(event.xkey.display,
+			event.xkey.window);
 	}
 }
 

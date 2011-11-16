@@ -31,8 +31,27 @@ int main(int argc, char const* argv[])
 
 		CoreEventProcess();
 	}
-
-	XCloseDisplay(dpy);
+	
+	PossumExit();
 
 	return 0;
+}
+
+void PossumExit() {
+	XCloseDisplay(dpy);
+	printf("\n*** Exiting possum\n");
+	exit(0);
+}
+
+void PossumRestart() {
+	pid_t pid;
+	int ret;
+
+	printf("\n*** Restarting possum\n");
+
+	pid = fork();
+	if (pid == 0)
+		ret = execl ("./possum", "./possum", (char *)0);
+	else
+		PossumExit();
 }
