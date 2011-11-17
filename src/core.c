@@ -1,5 +1,4 @@
 #include <possum.h>
-#include <key_macros.h>
 
 XButtonEvent move_start = {0};
 XWindowAttributes attr = {0};
@@ -16,10 +15,14 @@ void CoreKeyPress()
 		if (PossumRecompile()) {
 			PossumRestart();
 		} else {
-			printf("*** Not restarting");
+			printf("*** Not restarting\n");
 		}
 	}
 #endif
+
+	ON_SUPER(F2) {
+		printf("TADA\n");
+	}
 
 	/*ON_ALT(F4) {
 		XKillClient(event.xkey.display, event.xkey.window);

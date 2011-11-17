@@ -1,6 +1,8 @@
 #ifndef KEYS_H
 #define KEYS_H
 
+#include <key_macros.h>
+
 #define KEYCODE(NAME) XKeysymToKeycode(dpy, XStringToKeysym( #NAME ))
 
 typedef struct key_codes_common {

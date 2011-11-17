@@ -21,22 +21,24 @@ void SetCommonKeys()
 
 void GrabKey(KeyCode key)
 {
-	XGrabKey(dpy, key, Mod1Mask, root, True,
+	// Alt-*
+	XGrabKey(dpy, key, _ALT, root, True,
 		GrabModeAsync, GrabModeAsync);
-	XGrabKey(dpy, key, Mod1Mask|ShiftMask, root, True,
+	XGrabKey(dpy, key, _ALT_SHIFT, root, True,
 		GrabModeAsync, GrabModeAsync);
-	XGrabKey(dpy, key, Mod1Mask|ControlMask, root, True,
+	XGrabKey(dpy, key, _ALT_CTRL, root, True,
 		GrabModeAsync, GrabModeAsync);
-	XGrabKey(dpy, key, Mod1Mask|ControlMask|ShiftMask, root, True,
+	XGrabKey(dpy, key, _ALT|_CTRL|_SHIFT, root, True,
 		GrabModeAsync, GrabModeAsync);
 
-	XGrabKey(dpy, key, Mod4Mask, root, True,
+	// Super-*
+	XGrabKey(dpy, key, _SUPER, root, True,
 		GrabModeAsync, GrabModeAsync);
-	XGrabKey(dpy, key, Mod4Mask|ShiftMask, root, True,
+	XGrabKey(dpy, key, _SUPER_SHIFT, root, True,
 		GrabModeAsync, GrabModeAsync);
-	XGrabKey(dpy, key, Mod4Mask|ControlMask, root, True,
+	XGrabKey(dpy, key, _SUPER_CTRL, root, True,
 		GrabModeAsync, GrabModeAsync);
-	XGrabKey(dpy, key, Mod4Mask|ControlMask|ShiftMask, root, True,
+	XGrabKey(dpy, key, _SUPER|_CTRL|_SHIFT, root, True,
 		GrabModeAsync, GrabModeAsync);
 }
 
