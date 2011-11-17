@@ -29,6 +29,15 @@ void GrabKey(KeyCode key)
 		GrabModeAsync, GrabModeAsync);
 	XGrabKey(dpy, key, Mod1Mask|ControlMask|ShiftMask, root, True,
 		GrabModeAsync, GrabModeAsync);
+
+	XGrabKey(dpy, key, Mod4Mask, root, True,
+		GrabModeAsync, GrabModeAsync);
+	XGrabKey(dpy, key, Mod4Mask|ShiftMask, root, True,
+		GrabModeAsync, GrabModeAsync);
+	XGrabKey(dpy, key, Mod4Mask|ControlMask, root, True,
+		GrabModeAsync, GrabModeAsync);
+	XGrabKey(dpy, key, Mod4Mask|ControlMask|ShiftMask, root, True,
+		GrabModeAsync, GrabModeAsync);
 }
 
 void GrabCommonKeys()
